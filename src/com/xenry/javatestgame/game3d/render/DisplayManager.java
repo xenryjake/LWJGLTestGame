@@ -29,7 +29,7 @@ public class DisplayManager {
         }catch(LWJGLException ex){
             ex.printStackTrace();
         }
-        Display.setTitle("Display woo!");
+        Display.setTitle("LWJGL Test Game");
         Display.setVSyncEnabled(true);
 
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
