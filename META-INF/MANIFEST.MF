@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.xenry.javatestgame.Main
+Class-Path: libs/lwjgl.jar libs/lwjgl_util.jar libs/slick-util.jar
+
