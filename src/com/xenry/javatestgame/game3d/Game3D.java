@@ -117,9 +117,10 @@ public class Game3D {
         Player player = new Player(playerModel, 0.3f, new Location(world, 0, 0, 0));
         Camera camera = new Camera(player);
 
-        List<GuiTexture> guis = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("health"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
-        guis.add(gui);
+        // GUI: wip
+        //List<GuiTexture> guis = new ArrayList<>();
+        //GuiTexture gui = new GuiTexture(loader.loadTexture("health"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+        //guis.add(gui);
 
         // ACTUAL LOOP
         while(!Display.isCloseRequested()){
@@ -128,7 +129,7 @@ public class Game3D {
             renderer.processEntity(player);
             world.process(renderer);
             renderer.render(sun, camera);
-            guiRenderer.render(guis);
+            //guiRenderer.render(guis);
             DisplayManager.update();
         }
     }

@@ -26,6 +26,15 @@ public class Loader implements Cleanable {
     private List<Integer> vbos = new ArrayList<>();
     private List<Integer> textures = new ArrayList<>();
 
+    /**
+     * Load model data to a VAO.
+     *
+     * @param positions the array of positions
+     * @param textureCoords the array of texture coordinates
+     * @param normals the array of normals
+     * @param indicies the array of indicies
+     * @return the RawModel with a loaded VAO
+     */
     public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indicies){
         int vaoID = createVAO();
         bindIndicesBuffer(indicies);
@@ -36,6 +45,12 @@ public class Loader implements Cleanable {
         return new RawModel(vaoID, indicies.length);
     }
 
+    /**
+     * Load basic model data to a VAO.
+     *
+     * @param positions the array of positions
+     * @return the RawModel with a loaded VAO
+     */
     public RawModel loadToVAO(float[] positions){
         int vaoID = createVAO();
         this.storeDataInAttributeList(0, 2, positions);
@@ -43,10 +58,22 @@ public class Loader implements Cleanable {
         return new RawModel(vaoID, positions.length/2);
     }
 
+    /**
+     * Load model data to a VAO from a ModelData object.
+     *
+     * @param data the ModelData object with model data
+     * @return the RawModel with a loaded VAO
+     */
     public RawModel loadToVAO(ModelData data){
         return loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
     }
 
+    /**
+     * Load a texture file from the resources.
+     *
+     * @param fileName the name of the file, without path or extension
+     * @return the GL texture id
+     */
     public int loadTexture(String fileName){
         Texture texture = null;
         try{
@@ -63,6 +90,9 @@ public class Loader implements Cleanable {
         return textureID;
     }
 
+    /**
+     * Cleanup data to prevent memory leaks at shutdown.
+     */
     public void cleanup(){
         for(int vao : vaos){
             GL30.glDeleteVertexArrays(vao);
@@ -75,6 +105,11 @@ public class Loader implements Cleanable {
         }
     }
 
+    /**
+     * Create an empty VAO.
+     *
+     * @return the VAO id
+     */
     private int createVAO(){
         int vaoID = GL30.glGenVertexArrays();
         vaos.add(vaoID);
@@ -82,6 +117,13 @@ public class Loader implements Cleanable {
         return vaoID;
     }
 
+    /**
+     * Put data in an attribute list.
+     *
+     * @param attributeNumber id of the attribute
+     * @param coordSize size of the coords
+     * @param data the data to be stored
+     */
     private void storeDataInAttributeList(int attributeNumber, int coordSize, float[] data){
         int vboID = GL15.glGenBuffers();
         vbos.add(vboID);
@@ -92,6 +134,9 @@ public class Loader implements Cleanable {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
+    /**
+     * Unbind the currently bound VAO.
+     */
     private void unbindVAO(){
         GL30.glBindVertexArray(0);
     }

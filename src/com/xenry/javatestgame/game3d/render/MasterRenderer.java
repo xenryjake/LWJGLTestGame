@@ -56,6 +56,12 @@ public class MasterRenderer implements Cleanable {
         GL11.glDisable(GL11.GL_CULL_FACE);
     }
 
+    /**
+     * Render a frame.
+     *
+     * @param sun the sun light
+     * @param camera the camera
+     */
     public void render(Light sun, Camera camera){
         prepare();
         shader.start();
@@ -80,6 +86,12 @@ public class MasterRenderer implements Cleanable {
         terrains.add(terrain);
     }
 
+    /**
+     * Process an entity for rendering. Group
+     * all entities with the same models.
+     *
+     * @param entity the entity to process
+     */
     public void processEntity(Entity entity){
         TexturedModel model = entity.getModel();
         List<Entity> batch = entities.get(model);
@@ -92,19 +104,24 @@ public class MasterRenderer implements Cleanable {
         }
     }
 
+    /**
+     * Prepare for rendering.
+     */
     public void prepare(){
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(SKY_RED, SKY_GREEN, SKY_BLUE, 1);
     }
 
+    /**
+     * Create the projection matrix to render.
+     */
     private void createProjectionMatrix(){
         float aspectRatio = (float)Display.getWidth() / (float)Display.getHeight();
-        float y_scale = (float)(1f / Math.tan(Math.toRadians(FOV/2f))) * aspectRatio;
-        float x_scale = y_scale / aspectRatio;
+        float y_scale = (float)(1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio;
         float frustum_length = FAR_PLANE - NEAR_PLANE;
         projectionMatrix = new Matrix4f();
-        projectionMatrix.m00 = x_scale;
+        projectionMatrix.m00 = y_scale / aspectRatio; // x scale
         projectionMatrix.m11 = y_scale;
         projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
         projectionMatrix.m23 = -1;

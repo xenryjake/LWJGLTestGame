@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class GuiRenderer implements Cleanable {
 
+    // NOTE: GUI is a WIP
+
     private final RawModel quad;
     private GuiShader shader;
 

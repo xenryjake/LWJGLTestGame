@@ -18,6 +18,9 @@ public class DisplayManager {
     private static long lastFrameTime;
     private static float delta;
 
+    /**
+     * Create a display.
+     */
     public static void create(){
         ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
         try{
@@ -33,6 +36,11 @@ public class DisplayManager {
         lastFrameTime = getCurrentTime();
     }
 
+    /**
+     * Update the display (every frame).
+     * Keep the game at a maximum FPS to avoid
+     * processor overload.
+     */
     public static void update(){
         Display.sync(FPS_CAP);
         Display.update();
@@ -61,24 +69,19 @@ public class DisplayManager {
      * @param fullscreen True if we want fullscreen mode
      */
     private static void setDisplayMode(int width, int height, boolean fullscreen) {
-
         // return if requested DisplayMode is already set
         if ((Display.getDisplayMode().getWidth() == width) &&
                 (Display.getDisplayMode().getHeight() == height) &&
                 (Display.isFullscreen() == fullscreen)) {
             return;
         }
-
         try {
             DisplayMode targetDisplayMode = null;
-
             if (fullscreen) {
                 DisplayMode[] modes = Display.getAvailableDisplayModes();
                 int freq = 0;
-
-                for (int i=0;i<modes.length;i++) {
+                for (int i = 0; i < modes.length; i++) {
                     DisplayMode current = modes[i];
-
                     if ((current.getWidth() == width) && (current.getHeight() == height)) {
                         if ((targetDisplayMode == null) || (current.getFrequency() >= freq)) {
                             if ((targetDisplayMode == null) || (current.getBitsPerPixel() > targetDisplayMode.getBitsPerPixel())) {
@@ -86,7 +89,6 @@ public class DisplayManager {
                                 freq = targetDisplayMode.getFrequency();
                             }
                         }
-
                         // if we've found a match for bpp and frequence against the
                         // original display mode then it's probably best to go for this one
                         // since it's most likely compatible with the monitor
@@ -100,17 +102,14 @@ public class DisplayManager {
             } else {
                 targetDisplayMode = new DisplayMode(width,height);
             }
-
             if (targetDisplayMode == null) {
-                System.out.println("Failed to find value mode: "+width+"x"+height+" fs="+fullscreen);
+                System.out.println("Failed to find value mode: " + width + "x" + height + " fs=" + fullscreen);
                 return;
             }
-
             Display.setDisplayMode(targetDisplayMode);
             Display.setFullscreen(fullscreen);
-
         } catch (LWJGLException e) {
-            System.out.println("Unable to setup mode "+width+"x"+height+" fullscreen="+fullscreen + e);
+            System.out.println("Unable to setup mode " + width + "x" + height + " fullscreen=" + fullscreen + e);
         }
     }
 

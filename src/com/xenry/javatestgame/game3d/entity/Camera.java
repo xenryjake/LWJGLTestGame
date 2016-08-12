@@ -25,6 +25,9 @@ public class Camera {
         this.player = player;
     }
 
+    /**
+     * Perform camera move (every frame).
+     */
     public void move(){
         calculateZoom();
         calculatePitch();
@@ -51,15 +54,28 @@ public class Camera {
         return yaw;
     }
 
+    /**
+     * Calculate the position of the camera.
+     *
+     * @param horizD the horizontal distance of the camera from the player
+     * @param vertiD the vertical distance of the camera from the player
+     */
     private void calculateCameraPosition(float horizD, float vertiD){
-        float theta = player.getLocation().getRotY() + angleAroundPlayer;
-        float offX = (float)(horizD * Math.sin(Math.toRadians(theta)));
-        float offZ = (float)(horizD * Math.cos(Math.toRadians(theta)));
+        double rad = Math.toRadians(player.getLocation().getRotY() + angleAroundPlayer);
+        float offX = (float)(horizD * Math.sin(rad));
+        float offZ = (float)(horizD * Math.cos(rad));
         position.x = player.getLocation().getX() - offX;
         position.z = player.getLocation().getZ() - offZ;
         position.y = player.getLocation().getY() + Y_OFF + vertiD;
     }
 
+    /**
+     * Calculate the zoom (distance from player) of
+     * the camera. 1/10 of the distance the mouse
+     * wheel is moved.
+     *
+     * Range: 4 (close) to 100 (wide)
+     */
     private void calculateZoom(){
         distanceFromPlayer -= Mouse.getDWheel() * 0.1f;
         if(distanceFromPlayer < 4)
@@ -68,6 +84,13 @@ public class Camera {
             distanceFromPlayer = 100;
     }
 
+    /**
+     * Calculate the pitch of the camera view.
+     * 1/10 of the y distance of mouse motion when
+     * right mouse button is down.
+     *
+     * Range: 90° to -90°
+     */
     private void calculatePitch(){
         if(Mouse.isButtonDown(1)){
             pitch -= Mouse.getDY() * 0.1f;
@@ -78,6 +101,11 @@ public class Camera {
             pitch = -90;
     }
 
+    /**
+     * Calculate the angle of the camera around the player.
+     * 3/10 the x distance of mouse motion when left mouse
+     * button is down.
+     */
     private void calculateAngleAroundPlayer(){
         if(Mouse.isButtonDown(0)){
             angleAroundPlayer -= Mouse.getDX() * 0.3f;

@@ -27,10 +27,20 @@ public class Entity {
         this.textureIndex = textureIndex;
     }
 
+    /**
+     * Get the X offset of the texture from a texture atlas.
+     *
+     * @return the x offset of the texture
+     */
     public float getTextureXOffset(){
         return (float)(textureIndex%model.getTexture().getNumberOfRows())/(float)model.getTexture().getNumberOfRows();
     }
 
+    /**
+     * Get the Y offset of the texture from a texture atlas.
+     *
+     * @return the y offset of the texture
+     */
     public float getTextureYOffset(){
         return (float)(textureIndex/model.getTexture().getNumberOfRows())/(float)model.getTexture().getNumberOfRows();
     }

@@ -73,7 +73,7 @@ public class World implements Cleanable {
 
     public Terrain getTerrain(float x, float z){
         for(Terrain terrain : terrains){
-            if(x >= terrain.getX() && x < (terrain.getX()+Terrain.SIZE) && z >= terrain.getZ() && z < (terrain.getZ()+Terrain.SIZE)){
+            if(x >= terrain.getX() && x < (terrain.getX() + Terrain.SIZE) && z >= terrain.getZ() && z < (terrain.getZ() + Terrain.SIZE)){
                 return terrain;
             }
         }

@@ -20,6 +20,11 @@ public class Player extends Entity {
         super(model, scale, location);
     }
 
+    /**
+     * Move the player (every frame). Takes frame rate
+     * into account to have consistent movement speed
+     * based on actual time.
+     */
     public void move(){
         checkInputs();
         if((0 < velFor && velFor < 0.1 * DisplayManager.getFrameTimeSeconds()) || (velFor < 0 && -0.1 * DisplayManager.getFrameTimeSeconds() < velFor)){
@@ -45,6 +50,10 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Check which keys are pressed and adjust
+     * velocities accordingly.
+     */
     private void checkInputs(){
         if(isKeyDown(KEY_W) || isKeyDown(KEY_UP)){
             if(velFor < speed)
@@ -67,6 +76,10 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Adjust the upwards velocity of the player
+     * when they jump.
+     */
     private void jump(){
         if(isGrounded()){
             velUp += friction * DisplayManager.getFrameTimeSeconds();
@@ -75,49 +88,13 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Check if the player is on the ground.
+     *
+     * @return if the player is on the ground
+     */
     public boolean isGrounded(){
         return location.getY() == location.getWorld().getTerrain(location).getHeightOfTerrain(location.getX(), location.getZ());
     }
-
-    /*public void _move(){
-        _checkInputs();
-
-        location.addRot(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
-
-        float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
-        float dx = (float)(distance * Math.sin(Math.toRadians(location.getRotY())));
-        float dz = (float)(distance * Math.cos(Math.toRadians(location.getRotY())));
-        upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
-        location.add(dx, upwardsSpeed * DisplayManager.getFrameTimeSeconds(), dz);
-
-        float terrainHeight = location.getWorld().getTerrain(location).getHeightOfTerrain(location.getX(), location.getZ());
-        if(location.getY() < terrainHeight){
-            upwardsSpeed = 0;
-            isInAir = false;
-            location.setY(terrainHeight);
-        }
-    }*/
-
-    /*private void _checkInputs(){
-        if(isKeyDown(KEY_W)){
-            this.currentSpeed = RUN_SPEED;
-        }else if(isKeyDown(KEY_S)){
-            this.currentSpeed = -RUN_SPEED;
-        }else{
-            this.currentSpeed = 0;
-        }
-
-        if(isKeyDown(KEY_A)){
-            this.currentTurnSpeed = TURN_SPEED;
-        }else if(isKeyDown(KEY_D)){
-            this.currentTurnSpeed = -TURN_SPEED;
-        }else{
-            this.currentTurnSpeed = 0;
-        }
-
-        if(isKeyDown(KEY_SPACE)){
-            jump();
-        }
-    }*/
 
 }
